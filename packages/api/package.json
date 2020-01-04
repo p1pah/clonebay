@@ -1,0 +1,19 @@
+{
+  "name": "basic-app",
+  "version": "0.1.0",
+  "private": true,
+  "prettier": {
+    "useTabs": false,
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "all",
+    "bracketSpacing": true
+  },
+  "dependencies": {},
+  "scripts": {
+    "start": "node app.js"
+  },
+  "devDependencies": {
+    "prettier": "^1.18.2"
+  }
+}
