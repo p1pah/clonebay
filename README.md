@@ -1,3 +1,3 @@
 # clonebay
 
-This repository is used to be a skeleton for ecommerce auction sites
+This repository shall be used as a skeleton for ecommerce auction sites
