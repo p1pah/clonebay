@@ -9,6 +9,26 @@
     "trailingComma": "all",
     "bracketSpacing": true
   },
+  "xo": {
+    "prettier": true,
+    "rules": {
+      "capitalized-comments": "off",
+      "no-unused-expressions": "off",
+      "no-unused-vars": [
+        "warn",
+        {
+          "ignoreRestSiblings": true,
+          "argsIgnorePattern": "^_",
+          "varsIgnorePattern": "^_"
+        }
+      ]
+    },
+    "settings": {
+      "import/resolver": {
+        "node": {}
+      }
+    }
+  },
   "dependencies": {
     "express": "^4.17.1"
   },
@@ -17,6 +37,7 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.2",
-    "prettier": "^1.18.2"
+    "prettier": "^1.18.2",
+    "xo": "^0.25.3"
   }
 }
