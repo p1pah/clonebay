@@ -1,0 +1,22 @@
+{
+  "name": "clonebayapi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ben-hapip/clonebay.git"
+  },
+  "author": "Squad",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ben-hapip/clonebay/issues"
+  },
+  "homepage": "https://github.com/ben-hapip/clonebay#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
