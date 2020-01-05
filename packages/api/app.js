@@ -3,8 +3,6 @@ const mongoose = require('mongoose')
 
 require('dotenv').config()
 
-const Item = require('./models/Item')
-
 const app = express()
 app.use(express.json())
 
@@ -17,12 +15,6 @@ db.once('open', function() {
 });
 
 const port = 3000
-
-var newItem = new Item({ name: 'TestName'})
-newItem.save((err, newItem) => {
-    if(err) return console.error(err);
-    return console.log(newItem);
-})
 
 app.get('/', (req, res) => res.send('Hello World!'))
 
