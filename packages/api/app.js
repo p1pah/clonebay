@@ -18,7 +18,9 @@ db.once('open', function() {
 
 //Setting up routers
 const indexRouter = require('./routes/index')
+const userRouter = require('./routes/userRoutes');
 
 app.use('/', indexRouter)
+app.use('/users', userRouter)
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))

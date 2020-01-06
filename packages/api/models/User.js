@@ -3,9 +3,9 @@ var Schema    = mongoose.Schema;
 
 var userSchema = new Schema({
 
-  username      : String,
-  email         : String,
-  bio           : String,
+  email: { type: String, required: true, trim: true},
+  password: { type: String, required: true},
+  accessToken: { type: String }
   
 
 });
