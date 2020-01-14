@@ -8,6 +8,7 @@ const app = express()
 const port = 3000
 app.use(express.json())
 
+
 // use it before all route definitions
 app.use(cors({ origin: 'http://localhost:8000' }))
 
@@ -27,8 +28,11 @@ db.once('open', function() {
 //Setting up routers
 const indexRouter = require('./routes/index')
 const userRouter = require('./routes/userRoutes')
+const graphqlController = require('./controllers/graphqlControllers');
+
 
 app.use('/', indexRouter)
 app.use('/users', userRouter)
+app.use('/graphql', graphqlController);
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
