@@ -13,8 +13,8 @@ const schema = buildSchema(`
     deleteUser(id: String!): DeleteUserResponse
   }
   input UserInput {
-      email: String!,
-      password: String!
+    email: String!,
+    password: String!
   }
   type DeleteUserResponse {
     user: User!
