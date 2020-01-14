@@ -3,7 +3,8 @@ const UserService = require('../services/userServices');
 //Get Single User Info
 exports.getUser = async (req, res, next) => {
     try {
-        var user = await UserService.getUser(req.params.id)
+        const {params: { id }} = req
+        const user = await UserService.getUser(id)
         if(user == null){
             return res.status(404).json({ status: 404, message: "User not found."})
         }
@@ -16,8 +17,7 @@ exports.getUser = async (req, res, next) => {
 //Post Single User
 exports.createUser = async (req, res, next) => {
     try {
-        const email = req.body.email;
-        const password = req.body.password;
+        const { body: {email, password}} = req
         const jsonBody = { "email": email, "password": password }
         const newUser = await UserService.createUser(jsonBody);
         return res.status(200).json({ status: 200, data: newUser, message: "Successfully created new user"});
