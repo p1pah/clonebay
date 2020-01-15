@@ -11,7 +11,7 @@ const User = require('../models/User')
 //   return await bcrypt.compare(plainPassword, hashPassword)
 // }
 
-exports.getUser = async (_id) => {
+exports.getUser = async _id => {
   try {
     const user = await User.findById(_id)
     return user
@@ -24,20 +24,17 @@ exports.getUsers = async () => {
   try {
     const users = await User.find()
     return users
-  }catch(error){
+  } catch (error) {
     throw new Error('Error on userServices.getUsers.')
   }
 }
 
-exports.createUser = async (input) => {
- 
+exports.createUser = async input => {
   try {
-    
-    
     // const hashedPassword = await hashPassword(password);
-    const email = input.email;
-    const password = input.password;
-    
+    const email = input.email
+    const password = input.password
+
     const newUser = new User({ email: email, password: password })
     const accessToken = jwt.sign(
       { userId: newUser._id },
@@ -54,20 +51,20 @@ exports.createUser = async (input) => {
   }
 }
 
-exports.deleteUser = async (id) => {
-  try{
-    await User.findByIdAndDelete(id);
-    return User;
-  }catch(error){
+exports.deleteUser = async id => {
+  try {
+    await User.findByIdAndDelete(id)
+    return User
+  } catch (error) {
     throw new Error('Error on userServices.deleteUser')
   }
 }
 
 exports.updateUser = async (id, _user) => {
-  try{
-    await User.findByIdAndUpdate(id, _user);
-    return User;
-  }catch(error){
+  try {
+    await User.findByIdAndUpdate(id, _user)
+    return User
+  } catch (error) {
     throw new Error('Error on userServices.updateUser')
   }
 }

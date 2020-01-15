@@ -1,5 +1,5 @@
-const graphqlHTTP = require('express-graphql');
-const { buildSchema } = require('graphql');
+const graphqlHTTP = require('express-graphql')
+const { buildSchema } = require('graphql')
 const userService = require('../services/userServices')
 
 // Construct a schema, using GraphQL schema language
@@ -24,19 +24,19 @@ const schema = buildSchema(`
     email: String!,
     password: String!
   }
-`);
-
+`)
+console.log('hello')
 const rootResolver = {
-    user: graphqlInput => userService.getUser(graphqlInput.id),
-    users: userService.getUsers(),
-    createUser: graphqlInput => userService.createUser(graphqlInput.input),
-    deleteUser: graphqlInput => userService.deleteUser(graphqlInput.id),
-  };
-  
-  const graphql = graphqlHTTP({
-    schema,
-    rootValue: rootResolver,
-    graphiql: true, // this creates the interactive GraphQL API explorer with documentation.
-  });
+  user: graphqlInput => userService.getUser(graphqlInput.id),
+  users: userService.getUsers(),
+  createUser: graphqlInput => userService.createUser(graphqlInput.input),
+  deleteUser: graphqlInput => userService.deleteUser(graphqlInput.id),
+}
 
-  module.exports = graphql;
+const graphql = graphqlHTTP({
+  schema,
+  rootValue: rootResolver,
+  graphiql: true, // this creates the interactive GraphQL API explorer with documentation.
+})
+
+module.exports = graphql
