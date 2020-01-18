@@ -1,38 +1,64 @@
 import { Link } from "gatsby"
 import PropTypes from "prop-types"
 import React from "react"
+import {rustyOrange} from './colors'
+import styled from 'styled-components'
+import homeImage from '../images/home.jpg'
 
-const Header = ({ siteTitle }) => (
-  <header
-    style={{
-      background: `rebeccapurple`,
-      marginBottom: `1.45rem`,
-    }}
-  >
-    <div
-      style={{
-        margin: `0 auto`,
-        maxWidth: 960,
-        padding: `1.45rem 1.0875rem`,
-      }}
-    >
-      <h1 style={{ margin: 0 }}>
-        <Link
-          to="/"
-          style={{
-            color: `white`,
-            textDecoration: `none`,
-          }}
+
+const Header = ( {siteNavItems,siteLinks} ) => (
+ <ColoredHeader rustyOrange={rustyOrange}>
+ 
+  <StyledDiv>
+  <Link to="/">
+  <img src={homeImage} alt="homepage" height="100" width="95"/>
+  </Link>
+      {siteNavItems.map((current,index)=>(
+        <HeaderParagraph key={index} >
+        <StyledLink
+          to={siteLinks[index]}
+        
         >
-          {siteTitle}
-        </Link>
-      </h1>
-    </div>
-  </header>
+          {current}
+        </StyledLink>
+      </HeaderParagraph>
+      ))
+  }
+
+
+    </StyledDiv>
+  </ColoredHeader>
 )
 
+
+
+const ColoredHeader = styled.header`
+background: ${props => props.rustyOrange};
+margin-bottom: 1.00rem;
+`;
+
+const StyledDiv = styled.div`
+width: 100%;
+margin: 0 auto;
+padding: 1rem .875rem;
+display:flex;
+padding-bottom:0px;
+`;
+
+const StyledLink=styled(Link)` 
+color: white;
+text-decoration: none;
+padding-left:130px;
+`;
+
+const HeaderParagraph=styled.p`
+margin: 0;
+padding-top:35px;
+
+`;
 Header.propTypes = {
-  siteTitle: PropTypes.string,
+  siteNavItems: PropTypes.arrayOf(PropTypes.string),
+  siteLinks: PropTypes.arrayOf(PropTypes.string)
 }
 
 Header.defaultProps = {
