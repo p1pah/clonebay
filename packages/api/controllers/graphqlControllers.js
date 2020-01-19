@@ -6,7 +6,6 @@ const userService = require('../services/userServices')
 const schema = buildSchema(`
   type Query {
     user(id: String): User      
-    users: [User],
   }
   type Mutation {
     createUser(input: UserInput!): User,
@@ -25,10 +24,9 @@ const schema = buildSchema(`
     password: String!
   }
 `)
-console.log('hello')
+
 const rootResolver = {
   user: graphqlInput => userService.getUser(graphqlInput.id),
-  users: userService.getUsers(),
   createUser: graphqlInput => userService.createUser(graphqlInput.input),
   deleteUser: graphqlInput => userService.deleteUser(graphqlInput.id),
 }

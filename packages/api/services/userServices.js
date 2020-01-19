@@ -1,15 +1,6 @@
 const jwt = require('jsonwebtoken')
 const User = require('../models/User')
-// const bcrypt = require('bcrypt')
-
-// Could maybe be considered middleware functions and go to seperate folder
-// async function hashPassword(password) {
-//   return await bcrypt.hash(password, 10)
-// }
-
-// async function validatePassword(plainPassword, hashedPassword) {
-//   return await bcrypt.compare(plainPassword, hashPassword)
-// }
+const bcrypt = require('bcryptjs')
 
 exports.getUser = async _id => {
   try {
@@ -17,6 +8,19 @@ exports.getUser = async _id => {
     return user
   } catch (error) {
     throw new Error('Error on userServices.getUser')()
+  }
+}
+
+exports.getUserByEmail = async email => {
+  try {
+    const user = await User.findOne( {email: email}, (err, res) => {
+      if(err){
+        throw Error( "Error - User.findOne" + e)
+      }
+    } )
+    return user;
+  }catch (e){
+    throw Error(e)
   }
 }
 
@@ -31,11 +35,10 @@ exports.getUsers = async () => {
 
 exports.createUser = async input => {
   try {
-    // const hashedPassword = await hashPassword(password);
+    const hashedPassword = await bcrypt.hash(input.password, 10);
     const email = input.email
-    const password = input.password
-
-    const newUser = new User({ email: email, password: password })
+    
+    const newUser = new User({ email: email, password: hashedPassword })
     const accessToken = jwt.sign(
       { userId: newUser._id },
       process.env.JWT_SECRET,
@@ -66,5 +69,37 @@ exports.updateUser = async (id, _user) => {
     return User
   } catch (error) {
     throw new Error('Error on userServices.updateUser')
+  }
+}
+
+//returns true if authenticated 
+//false if not
+//null if user not found
+exports.login = async ( email, password) => {
+  try{
+    const user = this.getUserByEmail(email)
+    if( user == null){
+      return null
+    }
+    const hashedPassword = bcrypt.hash(password, 10);
+    if(await bcrypt.compare(password, hashedPassword)){
+      const newUser = new User({ email: email, password: hashedPassword })
+      const accessToken = jwt.sign(
+        { userId: newUser._id },
+        process.env.JWT_SECRET,
+        {
+          expiresIn: '1d',
+        },
+      )
+      newUser.accessToken = accessToken
+
+      User.findOneAndUpdate({email: email}, newUser)
+      return true;
+    }else{
+      return false;
+    }
+
+  }catch( e ){
+    throw Error("Error userServices.login - " + e)
   }
 }
