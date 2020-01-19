@@ -5,7 +5,7 @@ import gql from "graphql-tag"
 import Layout from "../components/layout"
 
 // just a little ability to add via graphql
-const CREATE_USER = gql`
+const LOGIN_USER = gql`
   mutation CreateUser($email: String!, $password: String!) {
     createUser(input: { email: $email, password: $password }) {
       email
@@ -14,7 +14,7 @@ const CREATE_USER = gql`
   }
 `
 
-const RegisterPage = () => {
+const LoginPage = () => {
   const [email, setEmail] = useState()
   const [password, setPassword] = useState()
   const onEmailChange = e => {
@@ -25,12 +25,12 @@ const RegisterPage = () => {
     e.preventDefault()
     setPassword(e.target.value)
   }
-  const [createUser] = useMutation(CREATE_USER)
+  const [loginUser] = useMutation(LOGIN_USER)
 
   return (
     <Layout>
       <div>
-        <h2>Register</h2>
+        <h2>Login</h2>
         <form>
           <div>
             <label type="text">Email</label>
@@ -58,13 +58,13 @@ const RegisterPage = () => {
                 console.log(password)
                 console.log(email)
                 e.preventDefault()
-                createUser({ variables: { email, password } })
+                loginUser({ variables: { email, password } })
                 setEmail('')
                 setPassword('')
               }}
               className="btn btn-primary"
             >
-              Register
+              Login
             </button>
           </div>
         </form>
@@ -73,4 +73,4 @@ const RegisterPage = () => {
   )
 }
 
-export default RegisterPage
+export default LoginPage
