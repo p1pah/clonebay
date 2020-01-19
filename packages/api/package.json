@@ -14,13 +14,14 @@
     "mongoose": "^5.8.4"
   },
   "scripts": {
-    "start": "babel-node app.js"
+    "start": "nodemon --exec babel-node app.js"
   },
   "devDependencies": {
     "@babel/cli": "^7.8.3",
     "@babel/core": "^7.8.3",
     "@babel/node": "^7.8.3",
     "@babel/preset-env": "^7.8.3",
-    "braces": ">=2.3.1"
+    "braces": ">=2.3.1",
+    "nodemon": "^1.18.6"
   }
 }

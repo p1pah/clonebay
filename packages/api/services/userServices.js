@@ -13,14 +13,10 @@ exports.getUser = async _id => {
 
 exports.getUserByEmail = async email => {
   try {
-    const user = await User.findOne({ email: email }, (err, res) => {
-      if (err) {
-        throw Error('Error - User.findOne' + e)
-      }
-    })
+    const user = await User.findOne({ email: email })
     return user
   } catch (e) {
-    throw Error(e)
+    throw Error('Error on userServices.getUserByEmail - ' + e)
   }
 }
 
@@ -75,28 +71,34 @@ exports.updateUser = async (id, _user) => {
 //returns true if authenticated
 //false if not
 //null if user not found
-exports.login = async (email, password) => {
+exports.login = async ({ email, password }) => {
   try {
-    const user = this.getUserByEmail(email)
+    //console.log(email, password)
+    const user = await exports.getUserByEmail(email)
+    //console.log(user)
     if (user == null) {
-      return null
+      return { status: false }
     }
-    const hashedPassword = bcrypt.hash(password, 10)
-    if (await bcrypt.compare(password, hashedPassword)) {
-      const newUser = new User({ email: email, password: hashedPassword })
-      const accessToken = jwt.sign(
-        { userId: newUser._id },
+    const hashedPassword = await bcrypt.hash(password, 10)
+    const isSame = await bcrypt.compare(password, hashedPassword)
+    if (isSame) {
+      const accessToken = await jwt.sign(
+        { userId: user._id },
         process.env.JWT_SECRET,
         {
           expiresIn: '1d',
         },
       )
-      newUser.accessToken = accessToken
-
-      User.findOneAndUpdate({ email: email }, newUser)
-      return true
+      user.accessToken = accessToken
+      console.log(user)
+      await User.findOneAndUpdate({ email: email }, user, {
+        new: false,
+        upsert: true,
+        setDefaultsOnInsert: true,
+      })
+      return { status: true }
     } else {
-      return false
+      return { status: false }
     }
   } catch (e) {
     throw Error('Error userServices.login - ' + e)
