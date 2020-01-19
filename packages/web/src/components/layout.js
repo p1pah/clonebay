@@ -12,19 +12,11 @@ import Header from "./header"
 import "./layout.css"
 
 const Layout = ({ children }) => {
-  const data = useStaticQuery(graphql`
-    query SiteTitleQuery {
-      site {
-        siteMetadata {
-          title
-        }
-      }
-    }
-  `)
-
+  const navItems = ['Auction View','Upload','Register My Account','Login']
+  const siteLinks = ['/auctionView', '/upload', '/register','/login'] 
   return (
     <>
-      <Header siteTitle={data.site.siteMetadata.title} />
+      <Header siteNavItems={navItems} siteLinks={siteLinks} />
       <div
         style={{
           margin: `0 auto`,
@@ -35,9 +27,9 @@ const Layout = ({ children }) => {
       >
         <main>{children}</main>
         <footer>
-          © {new Date().getFullYear()}, Built with
-          {` `}
-          <a href="https://www.gatsbyjs.org">Gatsby</a>
+          © {new Date().getFullYear()}, Built with {` `} 💘
+         
+          
         </footer>
       </div>
     </>
