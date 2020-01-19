@@ -1,7 +1,7 @@
-var mongoose = require('mongoose')
-var Schema = mongoose.Schema
+import mongoose from 'mongoose'
+const Schema = mongoose.Schema
 
-var itemSchema = new Schema({
+const itemSchema = new Schema({
   name: String,
 })
 

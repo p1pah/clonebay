@@ -1,6 +1,6 @@
-const express = require('express')
-const mongoose = require('mongoose')
-const cors = require('cors')
+import express from 'express'
+import mongoose from 'mongoose'
+import cors from 'cors'
 
 require('dotenv').config()
 
@@ -20,7 +20,7 @@ mongoose.connect(process.env.MONGO_DB_URI, {
   useFindAndModify: false,
 })
 
-var db = mongoose.connection
+const db = mongoose.connection
 db.on('error', console.error.bind(console, 'connection error:'))
 db.once('open', function() {
   console.log('Database connected')

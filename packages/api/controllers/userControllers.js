@@ -1,4 +1,4 @@
-const UserService = require('../services/userServices')
+import UserService from '../services/userServices'
 
 //Get Single User Info
 exports.getUser = async (req, res, next) => {

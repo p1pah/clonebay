@@ -1,6 +1,6 @@
-const graphqlHTTP = require('express-graphql')
-const { buildSchema } = require('graphql')
-const userService = require('../services/userServices')
+import graphqlHTTP from 'express-graphql'
+import { buildSchema } from 'graphql'
+import userService from '../services/userServices'
 
 // Construct a schema, using GraphQL schema language
 const schema = buildSchema(`
