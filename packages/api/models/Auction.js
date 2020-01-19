@@ -1,11 +1,8 @@
-var mongoose  = require('mongoose');
-var Schema    = mongoose.Schema;
+import mongoose from 'mongoose'
+const Schema = mongoose.Schema
 
-var auctionSchema = new Schema({
+const auctionSchema = new Schema({
+  name: String,
+})
 
-  name      : String,
-
-});
-
-
-module.exports = mongoose.model( 'Auction', auctionSchema );
+module.exports = mongoose.model('Auction', auctionSchema)

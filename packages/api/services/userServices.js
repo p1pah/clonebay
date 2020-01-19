@@ -1,6 +1,6 @@
-const jwt = require('jsonwebtoken')
-const User = require('../models/User')
-const bcrypt = require('bcryptjs')
+import jwt from 'jsonwebtoken'
+import User from '../models/User'
+import bcrypt from 'bcryptjs'
 
 exports.getUser = async _id => {
   try {
@@ -13,13 +13,13 @@ exports.getUser = async _id => {
 
 exports.getUserByEmail = async email => {
   try {
-    const user = await User.findOne( {email: email}, (err, res) => {
-      if(err){
-        throw Error( "Error - User.findOne" + e)
+    const user = await User.findOne({ email: email }, (err, res) => {
+      if (err) {
+        throw Error('Error - User.findOne' + e)
       }
-    } )
-    return user;
-  }catch (e){
+    })
+    return user
+  } catch (e) {
     throw Error(e)
   }
 }
@@ -35,9 +35,9 @@ exports.getUsers = async () => {
 
 exports.createUser = async input => {
   try {
-    const hashedPassword = await bcrypt.hash(input.password, 10);
+    const hashedPassword = await bcrypt.hash(input.password, 10)
     const email = input.email
-    
+
     const newUser = new User({ email: email, password: hashedPassword })
     const accessToken = jwt.sign(
       { userId: newUser._id },
@@ -72,17 +72,17 @@ exports.updateUser = async (id, _user) => {
   }
 }
 
-//returns true if authenticated 
+//returns true if authenticated
 //false if not
 //null if user not found
-exports.login = async ( email, password) => {
-  try{
+exports.login = async (email, password) => {
+  try {
     const user = this.getUserByEmail(email)
-    if( user == null){
+    if (user == null) {
       return null
     }
-    const hashedPassword = bcrypt.hash(password, 10);
-    if(await bcrypt.compare(password, hashedPassword)){
+    const hashedPassword = bcrypt.hash(password, 10)
+    if (await bcrypt.compare(password, hashedPassword)) {
       const newUser = new User({ email: email, password: hashedPassword })
       const accessToken = jwt.sign(
         { userId: newUser._id },
@@ -93,13 +93,12 @@ exports.login = async ( email, password) => {
       )
       newUser.accessToken = accessToken
 
-      User.findOneAndUpdate({email: email}, newUser)
-      return true;
-    }else{
-      return false;
+      User.findOneAndUpdate({ email: email }, newUser)
+      return true
+    } else {
+      return false
     }
-
-  }catch( e ){
-    throw Error("Error userServices.login - " + e)
+  } catch (e) {
+    throw Error('Error userServices.login - ' + e)
   }
 }
