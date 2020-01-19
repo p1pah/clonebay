@@ -1,11 +1,8 @@
-var mongoose  = require('mongoose');
-var Schema    = mongoose.Schema;
+import mongoose from 'mongoose'
+const Schema = mongoose.Schema
 
-var itemSchema = new Schema({
+const itemSchema = new Schema({
+  name: String,
+})
 
-  name      : String,
-
-});
-
-
-module.exports = mongoose.model( 'Item', itemSchema );
+module.exports = mongoose.model('Item', itemSchema)
