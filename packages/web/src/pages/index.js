@@ -37,14 +37,14 @@ const IndexPage = () => {
     .then(data => console.log(data))
   return (
     <Layout>
-      <h1>Hi people</h1>
-      <p>Welcome to your new Gatsby site.</p>
-      <p>Now go build something great.</p>
+      <h1>Welcome to Clonebay</h1>
+      <p>
+        This site is used to auction things you own to earn that cold hard cash
+        ༼ つ ◕_◕ ༽つ
+      </p>
       {/* <div style={{ maxWidth: 300px, marginBottom: 1.45rem }}>
     <Image />
   </div> */}
-
-      <Link to="/register/">Go to page 2</Link>
     </Layout>
   )
 }
