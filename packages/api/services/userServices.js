@@ -74,7 +74,7 @@ exports.updateUser = async (id, _user) => {
 exports.login = async ({ email, password }) => {
   try {
     //console.log(email, password)
-    const user = await this.getUserByEmail(email)
+    const user = await exports.getUserByEmail(email)
     //console.log(user)
     if (user == null) {
       return { status: false }
