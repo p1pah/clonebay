@@ -26,13 +26,11 @@ exports.createUser = async (req, res, next) => {
     } = req
     const jsonBody = { email: email, password: password }
     const newUser = await UserService.createUser(jsonBody)
-    return res
-      .status(201)
-      .json({
-        status: 201,
-        data: newUser,
-        message: 'Successfully created new user',
-      })
+    return res.status(201).json({
+      status: 201,
+      data: newUser,
+      message: 'Successfully created new user',
+    })
   } catch (e) {
     console.log(e)
     return res.status(400).json({ status: 400, message: e.message })

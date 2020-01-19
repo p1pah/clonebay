@@ -5,7 +5,8 @@ const userService = require('../services/userServices')
 // Construct a schema, using GraphQL schema language
 const schema = buildSchema(`
   type Query {
-    user(id: String): User      
+    user(id: String!): User,
+    login( input: UserInput! ): LoginResponse      
   }
   type Mutation {
     createUser(input: UserInput!): User,
@@ -18,6 +19,9 @@ const schema = buildSchema(`
   type DeleteUserResponse {
     user: User!
   }
+  type LoginResponse {
+    status: Boolean!
+  }
   type User {
     id: ID!,
     email: String!,
@@ -29,6 +33,7 @@ const rootResolver = {
   user: graphqlInput => userService.getUser(graphqlInput.id),
   createUser: graphqlInput => userService.createUser(graphqlInput.input),
   deleteUser: graphqlInput => userService.deleteUser(graphqlInput.id),
+  login: graphqlInput => userService.login(graphqlInput.input),
 }
 
 const graphql = graphqlHTTP({

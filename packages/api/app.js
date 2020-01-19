@@ -8,7 +8,6 @@ const app = express()
 const port = 3000
 app.use(express.json())
 
-
 // use it before all route definitions
 app.use(cors({ origin: 'http://localhost:8000' }))
 
@@ -18,6 +17,7 @@ mongoose.connect(process.env.MONGO_DB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true,
+  useFindAndModify: false,
 })
 
 var db = mongoose.connection
@@ -29,11 +29,10 @@ db.once('open', function() {
 //Setting up routers
 const indexRouter = require('./routes/index')
 const userRouter = require('./routes/userRoutes')
-const graphqlController = require('./controllers/graphqlControllers');
-
+const graphqlController = require('./controllers/graphqlControllers')
 
 app.use('/', indexRouter)
 app.use('/users', userRouter)
-app.use('/graphql', graphqlController);
+app.use('/graphql', graphqlController)
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
