@@ -27,9 +27,9 @@ exports.createUser = async (req, res, next) => {
     const jsonBody = { email: email, password: password }
     const newUser = await UserService.createUser(jsonBody)
     return res
-      .status(200)
+      .status(201)
       .json({
-        status: 200,
+        status: 201,
         data: newUser,
         message: 'Successfully created new user',
       })

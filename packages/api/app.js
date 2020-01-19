@@ -17,6 +17,7 @@ mongoose.connect(process.env.MONGO_DB_URI, {
   dbName: 'clonebayDB',
   useNewUrlParser: true,
   useUnifiedTopology: true,
+  useCreateIndex: true,
 })
 
 var db = mongoose.connection
