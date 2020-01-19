@@ -11,8 +11,7 @@
     "express-graphql": "^0.9.0",
     "graphql": "^14.5.8",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.8.4",
-    "npm-run-all": "^4.1.5"
+    "mongoose": "^5.8.4"
   },
   "scripts": {
     "start": "babel-node app.js"
@@ -22,6 +21,7 @@
     "@babel/core": "^7.8.3",
     "@babel/node": "^7.8.3",
     "@babel/preset-env": "^7.8.3",
-    "babel-cli": "^6.26.0"
+    "babel-cli": "^6.26.0",
+    "braces": ">=2.3.1"
   }
 }
