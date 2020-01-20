@@ -1,15 +1,14 @@
 import React, { useState } from "react"
-import { Link } from "gatsby"
-import { useMutation } from "@apollo/react-hooks"
+import { Redirect } from "@reach/router"
+import { Link, navigate } from "gatsby"
+import { useQuery } from "@apollo/react-hooks"
 import gql from "graphql-tag"
 import Layout from "../components/layout"
 
-// just a little ability to add via graphql
 const LOGIN_USER = gql`
-  mutation CreateUser($email: String!, $password: String!) {
-    createUser(input: { email: $email, password: $password }) {
-      email
-      password
+  query loginQuery($email: String!, $password: String!) {
+    login(input: { email: $email, password: $password }) {
+      status
     }
   }
 `
@@ -25,7 +24,9 @@ const LoginPage = () => {
     e.preventDefault()
     setPassword(e.target.value)
   }
-  const [loginUser] = useMutation(LOGIN_USER)
+  const { loading, error, data } = useQuery(LOGIN_USER, {
+    variables: { email, password },
+  })
 
   return (
     <Layout>
@@ -35,7 +36,7 @@ const LoginPage = () => {
           <div>
             <label type="text">Email</label>
             <input
-            value = {email}
+              value={email}
               type="email"
               className="form-control"
               name="email"
@@ -44,8 +45,8 @@ const LoginPage = () => {
           </div>
           <div>
             <label type="text">Password</label>
-            <input 
-              value = {password}
+            <input
+              value={password}
               type="password"
               className="form-control"
               name="password"
@@ -55,12 +56,12 @@ const LoginPage = () => {
           <div className="form-group">
             <button
               onClick={e => {
-                console.log(password)
-                console.log(email)
                 e.preventDefault()
-                loginUser({ variables: { email, password } })
-                setEmail('')
-                setPassword('')
+                if (data.login.status === true) {
+                  navigate("/")
+                }
+                setEmail("")
+                setPassword("")
               }}
               className="btn btn-primary"
             >
