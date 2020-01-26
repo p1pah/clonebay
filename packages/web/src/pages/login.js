@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from "react"
 import { Redirect } from "@reach/router"
 import { Link, navigate } from "gatsby"
-import { useLazyQuery } from "@apollo/react-hooks"
+import { useMutation } from "@apollo/react-hooks"
 import gql from "graphql-tag"
 import Layout from "../components/layout"
 
 const LOGIN_USER = gql`
-  query loginQuery($email: String!, $password: String!) {
+  mutation login($email: String!, $password: String!) {
     login(input: { email: $email, password: $password }) {
       status
     }
   }
 `
-
 const LoginPage = () => {
   const [email, setEmail] = useState()
   const [password, setPassword] = useState()
@@ -24,20 +23,24 @@ const LoginPage = () => {
     e.preventDefault()
     setPassword(e.target.value)
   }
-  const onSubmitClick = e => {
+
+  const [loginUser] = useMutation(LOGIN_USER)
+  const checkCreds = async e => {
     e.preventDefault()
-    loadLogin()
-    console.log(data)
-    if (data.login.status === true) {
+    const {
+      data: {
+        login: { status },
+      },
+    } = await loginUser({
+      variables: {
+        email,
+        password,
+      },
+    })
+    if (status === true) {
       navigate("/")
     }
-    setEmail("")
-    setPassword("")
   }
-
-  const [loadLogin, { data }] = useLazyQuery(LOGIN_USER, {
-    variables: { email: email, password: password },
-  })
 
   return (
     <Layout>
@@ -65,7 +68,7 @@ const LoginPage = () => {
             />
           </div>
           <div className="form-group">
-            <button onClick={onSubmitClick} className="btn btn-primary">
+            <button onClick={checkCreds} className="btn btn-primary">
               Login
             </button>
           </div>
