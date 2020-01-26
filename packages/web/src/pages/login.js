@@ -1,7 +1,7 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { Redirect } from "@reach/router"
 import { Link, navigate } from "gatsby"
-import { useQuery } from "@apollo/react-hooks"
+import { useLazyQuery } from "@apollo/react-hooks"
 import gql from "graphql-tag"
 import Layout from "../components/layout"
 
@@ -24,8 +24,19 @@ const LoginPage = () => {
     e.preventDefault()
     setPassword(e.target.value)
   }
-  const { loading, error, data } = useQuery(LOGIN_USER, {
-    variables: { email, password },
+  const onSubmitClick = e => {
+    e.preventDefault()
+    loadLogin()
+    console.log(data)
+    if (data.login.status === true) {
+      navigate("/")
+    }
+    setEmail("")
+    setPassword("")
+  }
+
+  const [loadLogin, { data }] = useLazyQuery(LOGIN_USER, {
+    variables: { email: email, password: password },
   })
 
   return (
@@ -54,17 +65,7 @@ const LoginPage = () => {
             />
           </div>
           <div className="form-group">
-            <button
-              onClick={e => {
-                e.preventDefault()
-                if (data.login.status === true) {
-                  navigate("/")
-                }
-                setEmail("")
-                setPassword("")
-              }}
-              className="btn btn-primary"
-            >
+            <button onClick={onSubmitClick} className="btn btn-primary">
               Login
             </button>
           </div>
