@@ -5,12 +5,12 @@ import userService from '../services/userServices'
 // Construct a schema, using GraphQL schema language
 const schema = buildSchema(`
   type Query {
-    user(id: String!): User,
-    login( input: UserInput! ): LoginResponse      
+    user(id: String!): User
   }
   type Mutation {
     createUser(input: UserInput!): User,
-    deleteUser(id: String!): DeleteUserResponse
+    deleteUser(id: String!): DeleteUserResponse,
+    login( input: UserInput! ): LoginResponse      
   }
   input UserInput {
     email: String!,
