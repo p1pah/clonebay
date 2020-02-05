@@ -35,14 +35,6 @@ exports.createUser = async input => {
     const email = input.email
 
     const newUser = new User({ email: email, password: hashedPassword })
-    const accessToken = jwt.sign(
-      { userId: newUser._id },
-      process.env.JWT_SECRET,
-      {
-        expiresIn: '1d',
-      },
-    )
-    newUser.accessToken = accessToken
     await newUser.save()
     return newUser
   } catch (e) {
@@ -79,27 +71,8 @@ exports.login = async ({ email, password }) => {
     if (user == null) {
       return { status: false }
     }
-    const hashedPassword = await bcrypt.hash(password, 10)
-    const isSame = await bcrypt.compare(password, hashedPassword)
-    if (isSame) {
-      const accessToken = await jwt.sign(
-        { userId: user._id },
-        process.env.JWT_SECRET,
-        {
-          expiresIn: '1d',
-        },
-      )
-      user.accessToken = accessToken
-      console.log(user)
-      await User.findOneAndUpdate({ email: email }, user, {
-        new: false,
-        upsert: true,
-        setDefaultsOnInsert: true,
-      })
-      return { status: true }
-    } else {
-      return { status: false }
-    }
+    const isSame = await bcrypt.compare(password, user.password)
+    return { status: isSame }
   } catch (e) {
     throw Error('Error userServices.login - ' + e)
   }
