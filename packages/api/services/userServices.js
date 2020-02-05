@@ -71,13 +71,8 @@ exports.login = async ({ email, password }) => {
     if (user == null) {
       return { status: false }
     }
-    const hashedPassword = await bcrypt.hash(password, 10)
-    const isSame = await bcrypt.compare(password, hashedPassword)
-    if (isSame) {
-      return { status: true }
-    } else {
-      return { status: false }
-    }
+    const isSame = await bcrypt.compare(password, user.password)
+    return { status: isSame }
   } catch (e) {
     throw Error('Error userServices.login - ' + e)
   }
