@@ -20,7 +20,6 @@ const Layout = ({ children }) => {
     }
   `
   const { data } = useQuery(IS_LOGGED_IN)
-  console.log(data)
   const lastNavItem = data && data.isLoggedIn ? "My Account" : "Login"
   const lastLink = data && data.isLoggedIn ? "/myAccount" : "/login"
   const navItems = [
