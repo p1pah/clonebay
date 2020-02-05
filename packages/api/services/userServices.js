@@ -1,13 +1,14 @@
 import jwt from 'jsonwebtoken'
 import User from '../models/User'
 import bcrypt from 'bcryptjs'
+import Item from '../models/Item'
 
 exports.getUser = async _id => {
   try {
-    const user = await User.findById(_id)
+    const user = await User.findById(_id).populate('items')
     return user
   } catch (error) {
-    throw new Error('Error on userServices.getUser')()
+    throw new Error('Error on userServices.getUser')
   }
 }
 
@@ -34,7 +35,7 @@ exports.createUser = async input => {
     const hashedPassword = await bcrypt.hash(input.password, 10)
     const email = input.email
 
-    const newUser = new User({ email: email, password: hashedPassword })
+    const newUser = new User({ email, password: hashedPassword })
     const accessToken = jwt.sign(
       { userId: newUser._id },
       process.env.JWT_SECRET,
@@ -52,8 +53,8 @@ exports.createUser = async input => {
 
 exports.deleteUser = async id => {
   try {
-    await User.findByIdAndDelete(id)
-    return User
+    const user = await User.findByIdAndDelete(id)
+    return true
   } catch (error) {
     throw new Error('Error on userServices.deleteUser')
   }
@@ -61,11 +62,16 @@ exports.deleteUser = async id => {
 
 exports.updateUser = async (id, _user) => {
   try {
-    await User.findByIdAndUpdate(id, _user)
-    return User
+    const user = await User.findByIdAndUpdate(id, _user)
+    return user
   } catch (error) {
     throw new Error('Error on userServices.updateUser')
   }
+}
+
+exports.getUserItems = async _id => {
+  const items = await Item.find({ owner: _id })
+  console.log(items)
 }
 
 //returns true if authenticated
@@ -75,7 +81,7 @@ exports.login = async ({ email, password }) => {
   try {
     //console.log(email, password)
     const user = await exports.getUserByEmail(email)
-    //console.log(user)
+
     if (user == null) {
       return { status: false }
     }
