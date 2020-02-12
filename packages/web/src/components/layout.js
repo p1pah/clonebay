@@ -8,12 +8,28 @@
 import React from "react"
 import PropTypes from "prop-types"
 import { useStaticQuery, graphql } from "gatsby"
+import { useQuery } from "@apollo/react-hooks"
+import gql from "graphql-tag"
 import Header from "./header"
 import "./layout.css"
 
 const Layout = ({ children }) => {
-  const navItems = ['Auction View','Upload','Register My Account','Login']
-  const siteLinks = ['/auctionView', '/upload', '/register','/login'] 
+  const IS_LOGGED_IN = gql`
+    query IsUserLoggedIn {
+      isLoggedIn @client
+    }
+  `
+  const { data } = useQuery(IS_LOGGED_IN)
+  const lastNavItem = data && data.isLoggedIn ? "My Account" : "Login"
+  const lastLink = data && data.isLoggedIn ? "/myAccount" : "/login"
+  const navItems = [
+    "Auction View",
+    "Upload",
+    "Register My Account",
+    lastNavItem,
+  ]
+  const siteLinks = ["/auctionView", "/upload", "/register", lastLink]
+
   return (
     <>
       <Header siteNavItems={navItems} siteLinks={siteLinks} />
@@ -28,8 +44,6 @@ const Layout = ({ children }) => {
         <main>{children}</main>
         <footer>
           © {new Date().getFullYear()}, Built with {` `} 💘
-         
-          
         </footer>
       </div>
     </>
