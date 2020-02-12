@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { Redirect } from "@reach/router"
 import { Link, navigate } from "gatsby"
-import { useMutation } from "@apollo/react-hooks"
+import { useMutation, useApolloClient } from "@apollo/react-hooks"
 import gql from "graphql-tag"
 import Layout from "../components/layout"
 
@@ -23,7 +23,7 @@ const LoginPage = () => {
     e.preventDefault()
     setPassword(e.target.value)
   }
-
+  const cache = useApolloClient().cache
   const [loginUser] = useMutation(LOGIN_USER)
   const checkCreds = async e => {
     e.preventDefault()
@@ -38,6 +38,7 @@ const LoginPage = () => {
       },
     })
     if (status === true) {
+      cache.writeData({ data: { isLoggedIn: true } })
       navigate("/")
     }
   }

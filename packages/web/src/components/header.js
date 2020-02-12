@@ -2,24 +2,26 @@ import { Link } from "gatsby"
 import { arrayOf, string } from "prop-types"
 import React from "react"
 import { rustyOrange } from "./colors"
+import { useQuery } from "@apollo/react-hooks"
 import styled from "styled-components"
 import homeImage from "../images/home.jpg"
 
-const Header = ({ siteNavItems, siteLinks }) => (
-  <ColoredHeader rustyOrange={rustyOrange}>
-    <StyledDiv>
-      <Link to="/">
-        <img src={homeImage} alt="homepage" height="100" width="95" />
-      </Link>
-      {siteNavItems.map((current, index) => (
-        <HeaderParagraph key={index}>
-          <StyledLink to={siteLinks[index]}>{current}</StyledLink>
-        </HeaderParagraph>
-      ))}
-    </StyledDiv>
-  </ColoredHeader>
-)
-
+const Header = ({ siteNavItems, siteLinks }) => {
+  return (
+    <ColoredHeader rustyOrange={rustyOrange}>
+      <StyledDiv>
+        <Link to="/">
+          <img src={homeImage} alt="homepage" height="100" width="95" />
+        </Link>
+        {siteNavItems.map((current, index) => (
+          <HeaderParagraph key={index}>
+            <StyledLink to={siteLinks[index]}>{current}</StyledLink>
+          </HeaderParagraph>
+        ))}
+      </StyledDiv>
+    </ColoredHeader>
+  )
+}
 const ColoredHeader = styled.header`
   background: ${props => props.rustyOrange};
   margin-bottom: 1rem;
