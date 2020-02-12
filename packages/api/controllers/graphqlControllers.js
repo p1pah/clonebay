@@ -51,7 +51,7 @@ const schema = buildSchema(`
 `)
 
 const rootResolver = {
-  user: graphqlInput => userService.getUser(graphqlInput.id),
+  user: graphqlInput => userService.getUserById(graphqlInput.id),
   createUser: graphqlInput => userService.createUser(graphqlInput.input),
   deleteUser: graphqlInput => userService.deleteUser(graphqlInput.id),
   login: graphqlInput => userService.login(graphqlInput.input),

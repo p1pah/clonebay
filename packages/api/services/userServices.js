@@ -1,14 +1,14 @@
-import jwt from 'jsonwebtoken'
 import User from '../models/User'
 import bcrypt from 'bcryptjs'
 import Item from '../models/Item'
 
-exports.getUser = async _id => {
+exports.getUserById = async _id => {
   try {
     const user = await User.findById(_id).populate('items')
     return user
   } catch (error) {
-    throw new Error('Error on userServices.getUser')
+    console.log(error)
+    throw new Error('Error on userServices.getUserById' - error)
   }
 }
 
@@ -21,15 +21,6 @@ exports.getUserByEmail = async email => {
   }
 }
 
-exports.getUsers = async () => {
-  try {
-    const users = await User.find()
-    return users
-  } catch (error) {
-    throw new Error('Error on userServices.getUsers.')
-  }
-}
-
 exports.createUser = async input => {
   try {
     const hashedPassword = await bcrypt.hash(input.password, 10)
@@ -37,7 +28,7 @@ exports.createUser = async input => {
 
     const newUser = new User({ email: email, password: hashedPassword })
     await newUser.save()
-    return newUser
+    return true
   } catch (e) {
     throw Error('Error on userServices.createUser' + e)
   }
@@ -55,15 +46,10 @@ exports.deleteUser = async id => {
 exports.updateUser = async (id, _user) => {
   try {
     const user = await User.findByIdAndUpdate(id, _user)
-    return user
+    return true
   } catch (error) {
     throw new Error('Error on userServices.updateUser')
   }
-}
-
-exports.getUserItems = async _id => {
-  const items = await Item.find({ owner: _id })
-  console.log(items)
 }
 
 //returns true if authenticated

@@ -26,11 +26,11 @@ exports.createItem = async input => {
   const name = input.name
   const startingPrice = input.startingPrice
   const pictureUrl = input.pictureUrl
-
   const ownerId = input.owner
 
   try {
-    const owner = await userService.getUser(ownerId)
+    const owner = await userService.getUserById(ownerId)
+
     const newItem = new Item({
       name,
       startingPrice,

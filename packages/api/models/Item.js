@@ -1,8 +1,8 @@
 import mongoose from 'mongoose'
-import User from './User'
+
 const Schema = mongoose.Schema
 
-const itemSchema = new Schema({
+const ItemSchema = new Schema({
   name: { type: String, required: true, trim: true },
   startingPrice: { type: String, trim: true },
   pictureUrl: { type: String, trim: true },
@@ -11,4 +11,4 @@ const itemSchema = new Schema({
   owner: { type: Schema.Types.ObjectId, ref: 'User', trim: true },
 })
 
-module.exports = mongoose.model('Item', itemSchema)
+module.exports = mongoose.model('Item', ItemSchema)
